@@ -1,5 +1,5 @@
 # Designer-Pinochle-Game
-This is the third side project that I initiated after my first semester Python class. It uses the designer and dataclasses packages to create a functioning version of the Pinochle card game in a separate window.
+This is the third side project that I initiated after my first semester Python class. It uses the designer and dataclasses packages to create a functioning version of the Pinochle card game in a separate window. Unfinished.
 
 ## Getting Started
 To get started with running this program, you will need the 'designer' and 'dataclasses' packages (See Prerequisites). You will also need to be able to access the 'Pinochle.py' file and run it through your chosen application. See deployment for notes on how to deploy the project on a live system (n/a).
