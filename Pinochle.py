@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from designer import *
+from Create_and_Deal_Deck import create_deck_list_funct, deal_cards_funct, sort_cards_funct
+import Global_Variables
 import random
 import time
 
@@ -66,10 +68,10 @@ def create_PinochleWorld_world() -> PinochleWorld:
         cpu4_obj = create_cpu_hand_obj("black",740,140),
         cpu5_obj = create_cpu_hand_obj("red",740,460),
         call_trump_message = text("black", "", 50, center_x, center_y - 100),
-        call_clubs = image("Sized Pinochle Cards/ace_of_clubs.png", center_x-150, 300),
-        call_diamonds = image("Sized Pinochle Cards/ace_of_diamonds.png", center_x-50, 300),
-        call_spades = image("Sized Pinochle Cards/ace_of_spades2.png", center_x+50, 300),
-        call_hearts = image("Sized Pinochle Cards/ace_of_hearts.png", center_x+150, 300),
+        call_clubs = image("Sized-Pinochle-Cards/ace_of_clubs.png", center_x-150, 300),
+        call_diamonds = image("Sized-Pinochle-Cards/ace_of_diamonds.png", center_x-50, 300),
+        call_spades = image("Sized-Pinochle-Cards/ace_of_spades2.png", center_x+50, 300),
+        call_hearts = image("Sized-Pinochle-Cards/ace_of_hearts.png", center_x+150, 300),
         heading_left = text("black", "Trump called: ", 20, 10, 5, anchor="topleft"),
         heading_right = text("black", "Black Team Score: 0 | Red Team Score: 0", 20, 790, 5, anchor="topright"))
 
@@ -93,177 +95,19 @@ def press_key_start(world: PinochleWorld, key: str):
 
 #################################################################################################
 
-def create_deck_list_funct():
-    global list_of_cards
-    list_of_cards = []
-    label_list = ["9","jack","queen","king","10","ace"]
-    suit_list = ["clubs","diamonds","hearts","spades"]
-    for label in label_list:
-        for suit in suit_list:
-            if (label == "9") or (label == "10"):
-                list_of_cards.append("Sized Pinochle Cards/"+label+"_of_"+suit+".png")
-            if label == "ace":
-                if suit == "spades":
-                    list_of_cards.append("Sized Pinochle Cards/"+label+"_of_"+suit+"2.png")
-                else:
-                    list_of_cards.append("Sized Pinochle Cards/"+label+"_of_"+suit+".png")
-            if (label == "jack") or (label == "queen") or (label == "king"):
-                list_of_cards.append("Sized Pinochle Cards/"+label+"_of_"+suit+"2.png")
-    count = 1
-    new_list_of_cards = []
-    while count <= 4:
-        for card in list_of_cards:
-            new_list_of_cards.append(card)
-        count += 1
-    list_of_cards = new_list_of_cards
-
-def deal_cards_funct():
-    global player_cards
-    global cpu1_cards
-    global cpu2_cards
-    global cpu3_cards
-    global cpu4_cards
-    global cpu5_cards
-    player_cards = []
-    cpu1_cards = []
-    cpu2_cards = []
-    cpu3_cards = []
-    cpu4_cards = []
-    cpu5_cards = []
-    remaining_card_count = 95
-    while remaining_card_count > 0:
-        #1
-        card_number = random.randint(0,remaining_card_count)
-        card = list_of_cards[card_number]
-        cpu1_cards.append(card)
-        del list_of_cards[card_number]
-        remaining_card_count -= 1
-        #2
-        card_number = random.randint(0,remaining_card_count)
-        card = list_of_cards[card_number]
-        cpu2_cards.append(card)
-        del list_of_cards[card_number]
-        remaining_card_count -= 1
-        #3
-        card_number = random.randint(0,remaining_card_count)
-        card = list_of_cards[card_number]
-        cpu3_cards.append(card)
-        del list_of_cards[card_number]
-        remaining_card_count -= 1
-        #4
-        card_number = random.randint(0,remaining_card_count)
-        card = list_of_cards[card_number]
-        cpu4_cards.append(card)
-        del list_of_cards[card_number]
-        remaining_card_count -= 1
-        #5
-        card_number = random.randint(0,remaining_card_count)
-        card = list_of_cards[card_number]
-        cpu5_cards.append(card)
-        del list_of_cards[card_number]
-        remaining_card_count -= 1
-        #Player
-        card_number = random.randint(0,remaining_card_count)
-        card = list_of_cards[card_number]
-        player_cards.append(card)
-        del list_of_cards[card_number]
-        remaining_card_count -= 1
-    sort_cards_funct(player_cards, "player_cards", 1)
-
-
-def sort_cards_funct(cards_list: list[str], cards_list_str: str, run_truth: int):
-    global player_cards
-    global cpu1_cards
-    global cpu2_cards
-    global cpu3_cards
-    global cpu4_cards
-    global cpu5_cards
-    if run_truth:
-        sorted_cards = []
-        clubs = []
-        diamonds = []
-        spades = []
-        hearts = []
-        suits = [clubs, diamonds, spades, hearts]
-        for card in cards_list:
-            if "clubs" in card:
-                card = "1" + card
-                clubs.append(card)
-            elif "diamonds" in card:
-                card = "2" + card
-                diamonds.append(card)
-            elif "spades" in card:
-                card = "3" + card
-                spades.append(card)
-            elif "hearts" in card:
-                card = "4" + card
-                hearts.append(card)
-        for suit in suits:
-            index_count = 0
-            for card in suit:
-                if "9" in card:
-                    card_prio = 1
-                elif "jack" in card:
-                    card_prio = 2
-                elif "queen" in card:
-                    card_prio = 3
-                elif "king" in card:
-                    card_prio = 4
-                elif "10" in card:
-                    card_prio = 5
-                elif "ace" in card:
-                    card_prio = 6
-                card = card[0] + str(card_prio) + card[1:]
-                suit[index_count] = card
-                index_count += 1
-            suit.sort(reverse=True)
-            for card in suit:
-                sorted_cards.append(card)
-        new_sorted_cards = []
-        if cards_list_str == "player_cards":
-            for card in sorted_cards:
-                card = card[2:]
-                new_sorted_cards.append(card)
-            player_cards = new_sorted_cards
-        elif cards_list_str == "cpu1_cards":
-            cpu1_cards = sorted_cards
-            return cpu1_cards
-        elif cards_list_str == "cpu2_cards":
-            cpu2_cards = sorted_cards
-            return cpu2_cards
-        elif cards_list_str == "cpu3_cards":
-            cpu3_cards = sorted_cards
-            return cpu3_cards
-        elif cards_list_str == "cpu4_cards":
-            cpu4_cards = sorted_cards
-            return cpu4_cards
-        elif cards_list_str == "cpu5_cards":
-            cpu5_cards = sorted_cards
-            return cpu5_cards
-    else:
-        if cards_list_str == "cpu1_cards":
-            return cpu1_cards
-        elif cards_list_str == "cpu2_cards":
-            return cpu2_cards
-        elif cards_list_str == "cpu3_cards":
-            return cpu3_cards
-        elif cards_list_str == "cpu4_cards":
-            return cpu4_cards
-        elif cards_list_str == "cpu5_cards":
-            return cpu5_cards
 
 #################################################################################################
 
 def create_player_hand_obj(y: int) -> list[DesignerObject]:
     player_obj_list = []
     x = center_x - (37.5*5.5) - 4.25
-    for card in player_cards:
+    for card in Global_Variables.player_cards:
         player_obj_list.append(image(card, x, y))
         x += 28.125
     return player_obj_list
     
 def create_cpu_hand_obj(color:str,x:int,y:int) -> list[DesignerObject]:
-    return [rectangle(color, 25, 25, x, y), rectangle(color, 25, 25, x, y), text(color, "", 20, x, y, anchor="center"), image("Sized Pinochle Cards/ace_of_clubs.png", center_x, -1000)]
+    return [rectangle(color, 25, 25, x, y), rectangle(color, 25, 25, x, y), text(color, "", 20, x, y, anchor="center"), image("Sized-Pinochle-Cards/ace_of_clubs.png", center_x, -1000)]
 
 def box_move_funct(world: PinochleWorld, run_number: int):
     if run_number == 1:
@@ -310,7 +154,7 @@ def call_trump_click(world: PinochleWorld, x:int, y:int):
 
 def calc_meld_funct():
     global meld_list
-    cards_list = [player_cards, cpu1_cards, cpu2_cards, cpu3_cards, cpu4_cards, cpu5_cards]
+    cards_list = [Global_Variables.player_cards, Global_Variables.cpu1_cards, Global_Variables.cpu2_cards, Global_Variables.cpu3_cards, Global_Variables.cpu4_cards, Global_Variables.cpu5_cards]
     meld_list = []
     for card_list in cards_list:
         meld = [0]
@@ -671,7 +515,7 @@ def control_round_function(world: PinochleWorld):
     for string in cpu_string_list[:lead_identifier]:
         order_list.append(string)
     if round_number == 1 and i == 0:    
-        print("1")
+        #print("1")
         time_bound = 15
         run_number_round = 0
         i = 1
@@ -679,20 +523,20 @@ def control_round_function(world: PinochleWorld):
         truth_run_time = 0
         truth_player_turn_in_round = 1
     if round_number == 1 and truth_card_played:    
-        print("a")
+        #print("a")
         time_bound = 15
         run_number_round = 0
     if truth_start_tricks == 1 and truth_card_played:
         truth_run_time = 1
         truth_player_turn_in_round = 0
         if order_list[run_number_round] == "player_turn":
-            print("c")
+            #print("c")
             truth_player_turn_in_round = 1
             truth_run_time = 0
             truth_card_selected = 0
             truth_card_played = 0
         if time_constant == 3 and not truth_player_turn_in_round:
-            print("d")
+            #print("d")
             if round_number > 1:
                 hide(cards_played_list[-2])
             hide(world.cpu1_obj[3])
@@ -701,13 +545,13 @@ def control_round_function(world: PinochleWorld):
             hide(world.cpu4_obj[3])
             hide(world.cpu5_obj[3])
         elif time_constant == time_bound and not truth_player_turn_in_round:
-            print("e")
+            #print("e")
             run_number_round += 1
             cpu_play_card_funct(world, (lead_identifier+run_number_round), order_list[run_number_round-1], 1)
             cpu_play_card_funct(world, (lead_identifier+run_number_round), order_list[run_number_round-1], 2)
             time_bound += 15
         if run_number_round == 5:    
-            print("f")
+            #print("f")
             time_constant = 0
             run_number_round = 0
             time_bound = 15
@@ -725,13 +569,8 @@ def cpu_play_card_funct(world: PinochleWorld, cpu_number: int, cpu_string: str, 
         cpu_obj[3].y = cpu_obj[1].y
 
 def cpu_card_decision_helper(cpu_number: int, cpu_string: str):
-    global cpu1_cards
-    global cpu2_cards
-    global cpu3_cards
-    global cpu4_cards
-    global cpu5_cards
     global cards_played_list
-    list_of_cpu_cards = [cpu1_cards,cpu2_cards,cpu3_cards,cpu4_cards,cpu5_cards]
+    list_of_cpu_cards = [Global_Variables.cpu1_cards,Global_Variables.cpu2_cards,Global_Variables.cpu3_cards,Global_Variables.cpu4_cards,Global_Variables.cpu5_cards]
     cpu_cards = list_of_cpu_cards[cpu_number-1]
     cards_played = cards_played_list[round_number-1]
     if round_number == 1:
