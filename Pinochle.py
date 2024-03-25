@@ -29,34 +29,6 @@ class PinochleWorld:
     
 
 def create_PinochleWorld_world() -> PinochleWorld:
-    global truth_start
-    global truth_trump_called
-    global truth_start_tricks
-    global truth_player_turn_in_round
-    global truth_card_selected
-    global truth_card_played
-    global black_score
-    global red_score
-    global time_constant
-    global truth_run_time
-    global cards_played_list
-    global round_number
-    global lead_identifier
-    global i
-    truth_start = 0
-    truth_trump_called = 0
-    truth_start_tricks = 0
-    truth_player_turn_in_round = 0
-    truth_card_selected = 0
-    truth_card_played = 0
-    black_score = 0
-    red_score = 0
-    time_constant = 0
-    truth_run_time = 0
-    cards_played_list = []
-    round_number = 0
-    lead_identifier = 0
-    i = 0
     return PinochleWorld(
         text("black", "Welcome to Pinochle", 50, center_x, center_y - 150),
         text("black", "To start play, press the space bar", 20, center_x, center_y - 100),
@@ -76,22 +48,20 @@ def create_PinochleWorld_world() -> PinochleWorld:
         heading_right = text("black", "Black Team Score: 0 | Red Team Score: 0", 20, 790, 5, anchor="topright"))
 
 def press_key_start(world: PinochleWorld, key: str):
-    global truth_start
-    global truth_start_tricks
-    if key == " " and truth_start == 0:
-        truth_start = 1
+    if key == " " and Global_Variables.truth_start == 0:
+        Global_Variables.truth_start = 1
         world.title.text = ""
         world.instructions1.text = ""
         world.call_trump_message.text = "What will you call trump?"
         world.player_hand_objs = create_player_hand_obj(580)
         box_move_funct(world,1)
-    if key == " " and truth_trump_called == 2:
+    if key == " " and Global_Variables.truth_trump_called == 2:
         world.instructions1.text = ""
         obj_list = [world.player_obj[2], world.cpu1_obj[2], world.cpu2_obj[2], world.cpu3_obj[2], world.cpu4_obj[2], world.cpu5_obj[2]]
         for obj in obj_list:
             obj.text = ""
         box_move_funct(world,2)
-        truth_start_tricks = 1
+        Global_Variables.truth_start_tricks = 1
 
 #################################################################################################
 
@@ -126,22 +96,21 @@ def box_move_funct(world: PinochleWorld, run_number: int):
 #################################################################################################
 
 def call_trump_click(world: PinochleWorld, x:int, y:int):
-    if truth_start == 1:
+    if Global_Variables.truth_start == 1:
         global trump_suit
-        global truth_trump_called
         if colliding(world.call_clubs, x, y):
             trump_suit = "Clubs"
-            truth_trump_called = 1
+            Global_Variables.truth_trump_called = 1
         if colliding(world.call_diamonds, x, y):
             trump_suit = "Diamonds"
-            truth_trump_called = 1
+            Global_Variables.truth_trump_called = 1
         if colliding(world.call_spades, x, y):
             trump_suit = "Spades"
-            truth_trump_called = 1
+            Global_Variables.truth_trump_called = 1
         if colliding(world.call_hearts, x, y):
             trump_suit = "Hearts"
-            truth_trump_called = 1
-        if truth_trump_called == 1:
+            Global_Variables.truth_trump_called = 1
+        if Global_Variables.truth_trump_called == 1:
             world.call_trump_message.text = ""
             world.call_clubs.y = -1000
             world.call_diamonds.y = -1000
@@ -150,7 +119,7 @@ def call_trump_click(world: PinochleWorld, x:int, y:int):
             world.heading_left.text = "Trump called: " + trump_suit
             calc_meld_funct()
             manage_meld_world(world)
-            truth_trump_called = 2
+            Global_Variables.truth_trump_called = 2
 
 def calc_meld_funct():
     global meld_list
@@ -358,11 +327,11 @@ def meld_marriages_helper(suits: list[list], meld: list):
                     card_count += 1
             count_list.append(card_count)
         if run and add_meld_points == 4:
-            i = 0
+            Global_Variables.i = 0
             for count in count_list:
-                if count == 1 and i == 0:
-                    i = 1
-                elif count == 1 and i == 1:
+                if count == 1 and Global_Variables.i == 0:
+                    Global_Variables.i = 1
+                elif count == 1 and Global_Variables.i == 1:
                     count_list[1] = 0
         for count in count_list:
                 if count == 0:
@@ -432,15 +401,13 @@ def meld_pinochle_helper(suits: list[list], meld: list):
             meld.append("QQQQ♠JJJJ♦")
 
 def manage_meld_world(world: PinochleWorld):
-    global black_score
-    global red_score
     global black_meld
     global red_meld
     black_meld = meld_list[0][0] + meld_list[2][0] + meld_list[4][0]
     red_meld = meld_list[1][0] + meld_list[3][0] + meld_list[5][0]
-    black_score += black_meld
-    red_score += red_meld
-    world.heading_right.text = "Black Team Score: "+str(black_score)+" | Red Team Score: "+str(red_score)
+    Global_Variables.black_score += black_meld
+    Global_Variables.red_score += red_meld
+    world.heading_right.text = "Black Team Score: "+str(Global_Variables.black_score)+" | Red Team Score: "+str(Global_Variables.red_score)
     world.instructions1.text = "Press the space bar to continue"
     world.instructions1.y = center_y
     create_meld_text_funct(world)
@@ -462,13 +429,8 @@ def create_meld_text_funct(world):
 #################################################################################################
 
 def select_card_click(world: PinochleWorld, x:int, y:int):
-    global truth_card_selected
-    global truth_card_played
     global card_clicked
-    global cards_played_list
-    global truth_run_time
-    global round_number
-    if (truth_player_turn_in_round == 1) and (truth_card_selected == 0):
+    if (Global_Variables.truth_player_turn_in_round == 1) and (Global_Variables.truth_card_selected == 0):
         card_count = 0
         for card in world.player_hand_objs:
             if colliding(card, x, y):
@@ -477,8 +439,8 @@ def select_card_click(world: PinochleWorld, x:int, y:int):
                     card_clicked = card
         if (card_count > 0) and (card_count <= 3):
             card_clicked.y -= 20
-            truth_card_selected = 1
-    elif (truth_player_turn_in_round == 1) and (truth_card_selected == 1):
+            Global_Variables.truth_card_selected = 1
+    elif (Global_Variables.truth_player_turn_in_round == 1) and (Global_Variables.truth_card_selected == 1):
         card_count = 0
         for card in world.player_hand_objs:
             if colliding(card, x, y):
@@ -492,70 +454,62 @@ def select_card_click(world: PinochleWorld, x:int, y:int):
         elif (card_count > 0) and (card_count <= 3) and new_card_clicked == card_clicked:
             card_clicked.x = world.player_obj[1].x
             card_clicked.y = world.player_obj[1].y
-            cards_played_list.append(card_clicked)
-            round_number += 1
-            truth_card_played = 1
-            truth_run_time = 1
+            Global_Variables.cards_played_list.append(card_clicked)
+            Global_Variables.round_number += 1
+            Global_Variables.truth_card_played = 1
+            Global_Variables.truth_run_time = 1
 
 def control_round_function(world: PinochleWorld):
-    global truth_player_turn_in_round
-    global time_constant
-    global truth_run_time
-    global truth_card_selected
-    global truth_card_played
     global run_number_round
     global time_bound
-    global cards_played_list
-    global lead_identifier
-    global i
     cpu_string_list = ["cpu1_cards", "cpu2_cards", "cpu3_cards", "cpu4_cards", "cpu5_cards","player_turn"]
     order_list = []
-    for string in cpu_string_list[lead_identifier:]:
+    for string in cpu_string_list[Global_Variables.lead_identifier:]:
         order_list.append(string)
-    for string in cpu_string_list[:lead_identifier]:
+    for string in cpu_string_list[:Global_Variables.lead_identifier]:
         order_list.append(string)
-    if round_number == 1 and i == 0:    
+    if Global_Variables.round_number == 1 and Global_Variables.i == 0:    
         #print("1")
         time_bound = 15
         run_number_round = 0
-        i = 1
-    if truth_start_tricks == 1 and not truth_card_played:
-        truth_run_time = 0
-        truth_player_turn_in_round = 1
-    if round_number == 1 and truth_card_played:    
+        Global_Variables.i = 1
+    if Global_Variables.truth_start_tricks == 1 and not Global_Variables.truth_card_played:
+        Global_Variables.truth_run_time = 0
+        Global_Variables.truth_player_turn_in_round = 1
+    if Global_Variables.round_number == 1 and Global_Variables.truth_card_played:    
         #print("a")
         time_bound = 15
         run_number_round = 0
-    if truth_start_tricks == 1 and truth_card_played:
-        truth_run_time = 1
-        truth_player_turn_in_round = 0
+    if Global_Variables.truth_start_tricks == 1 and Global_Variables.truth_card_played:
+        Global_Variables.truth_run_time = 1
+        Global_Variables.truth_player_turn_in_round = 0
         if order_list[run_number_round] == "player_turn":
             #print("c")
-            truth_player_turn_in_round = 1
-            truth_run_time = 0
-            truth_card_selected = 0
-            truth_card_played = 0
-        if time_constant == 3 and not truth_player_turn_in_round:
+            Global_Variables.truth_player_turn_in_round = 1
+            Global_Variables.truth_run_time = 0
+            Global_Variables.truth_card_selected = 0
+            Global_Variables.truth_card_played = 0
+        if Global_Variables.time_constant == 3 and not Global_Variables.truth_player_turn_in_round:
             #print("d")
-            if round_number > 1:
-                hide(cards_played_list[-2])
+            if Global_Variables.round_number > 1:
+                hide(Global_Variables.cards_played_list[-2])
             hide(world.cpu1_obj[3])
             hide(world.cpu2_obj[3])
             hide(world.cpu3_obj[3])
             hide(world.cpu4_obj[3])
             hide(world.cpu5_obj[3])
-        elif time_constant == time_bound and not truth_player_turn_in_round:
+        elif Global_Variables.time_constant == time_bound and not Global_Variables.truth_player_turn_in_round:
             #print("e")
             run_number_round += 1
-            cpu_play_card_funct(world, (lead_identifier+run_number_round), order_list[run_number_round-1], 1)
-            cpu_play_card_funct(world, (lead_identifier+run_number_round), order_list[run_number_round-1], 2)
+            cpu_play_card_funct(world, (Global_Variables.lead_identifier+run_number_round), order_list[run_number_round-1], 1)
+            cpu_play_card_funct(world, (Global_Variables.lead_identifier+run_number_round), order_list[run_number_round-1], 2)
             time_bound += 15
         if run_number_round == 5:    
             #print("f")
-            time_constant = 0
+            Global_Variables.time_constant = 0
             run_number_round = 0
             time_bound = 15
-            lead_identifier = 1
+            Global_Variables.lead_identifier = 1
         
 def cpu_play_card_funct(world: PinochleWorld, cpu_number: int, cpu_string: str, run_number: int):
     list_cpu_objs = [world.cpu1_obj,world.cpu2_obj,world.cpu3_obj,world.cpu4_obj,world.cpu5_obj]
@@ -569,24 +523,21 @@ def cpu_play_card_funct(world: PinochleWorld, cpu_number: int, cpu_string: str, 
         cpu_obj[3].y = cpu_obj[1].y
 
 def cpu_card_decision_helper(cpu_number: int, cpu_string: str):
-    global cards_played_list
     list_of_cpu_cards = [Global_Variables.cpu1_cards,Global_Variables.cpu2_cards,Global_Variables.cpu3_cards,Global_Variables.cpu4_cards,Global_Variables.cpu5_cards]
     cpu_cards = list_of_cpu_cards[cpu_number-1]
-    cards_played = cards_played_list[round_number-1]
-    if round_number == 1:
+    cards_played = Global_Variables.cards_played_list[Global_Variables.round_number-1]
+    if Global_Variables.round_number == 1:
         sorted_cpu_cards = sort_cards_funct(cpu_cards, cpu_string, 1)
-    if round_number > 1:
+    if Global_Variables.round_number > 1:
         sorted_cpu_cards = sort_cards_funct(cpu_cards, cpu_string, 0)
-    card_cpu_played = sorted_cpu_cards[round_number][2:]
+    card_cpu_played = sorted_cpu_cards[Global_Variables.round_number][2:]
     return card_cpu_played
 
 #################################################################################################
 
 def clock():
-    global time_constant
-    global truth_run_time
-    if truth_run_time:
-        time_constant += 1
+    if Global_Variables.truth_run_time:
+        Global_Variables.time_constant += 1
 
 when("starting", create_deck_list_funct)
 when("starting", deal_cards_funct)
