@@ -2,8 +2,6 @@ from bakery import assert_equal
 import random
 import Global_Variables
 
-remaining_card_count = 95
-
 def create_deck_list_funct():
     '''
     Creates a list of strings representing the paths to different card images for a standard pinochle deck
@@ -45,12 +43,11 @@ def deal_cards_helper(cards_list: list[str]):
     Arg:
         cards_list ([str]): Represents the appropriate player/computer hand into which the card is dealt 
     '''
-    global remaining_card_count
-    card_number = random.randint(0,remaining_card_count)
+    card_number = random.randint(0,Global_Variables.remaining_card_count)
     card = Global_Variables.list_of_cards[card_number]
     cards_list.append(card)
     del Global_Variables.list_of_cards[card_number]
-    remaining_card_count -= 1
+    Global_Variables.remaining_card_count -= 1
 
 def deal_cards_funct():
     '''
@@ -58,7 +55,7 @@ def deal_cards_funct():
     player's cards. Results in "list_of_cards" being emptied, but "list_of_cards" is not used in
     Pinochle.py anyway.
     '''
-    while remaining_card_count > 0:
+    while Global_Variables.remaining_card_count > 0:
         deal_cards_helper(Global_Variables.cpu1_cards)
         deal_cards_helper(Global_Variables.cpu2_cards)
         deal_cards_helper(Global_Variables.cpu3_cards)
