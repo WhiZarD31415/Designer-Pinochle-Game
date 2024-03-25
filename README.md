@@ -17,7 +17,7 @@ You will need:
 - designer 0.6.6 (run "py -m pip install designer")
 
 ## Running the tests
-Not currently applicable
+Just starting: To check that a .py file is running correctly, run its corresponding TEST.py and read the shell output.
 
 ## Deployment
 Not currently applicable
@@ -26,6 +26,7 @@ Not currently applicable
 - Thonny: Code environment
 - VSCode: Code environment
 - Designer: Interactive graphics library
+- Dataclasses: A backport of the dataclasses module for Python 3.6
 
 ## Contributing
 Not currently applicable
