@@ -527,10 +527,11 @@ def cpu_card_decision_helper(cpu_number: int, cpu_string: str):
     cpu_cards = list_of_cpu_cards[cpu_number-1]
     cards_played = Global_Variables.cards_played_list[Global_Variables.round_number-1]
     if Global_Variables.round_number == 1:
-        sorted_cpu_cards = sort_cards_funct(cpu_cards, cpu_string, 1)
+        sort_cards_funct(cpu_cards, cpu_string)
+        sorted_cpu_cards = cpu_cards
     if Global_Variables.round_number > 1:
-        sorted_cpu_cards = sort_cards_funct(cpu_cards, cpu_string, 0)
-    card_cpu_played = sorted_cpu_cards[Global_Variables.round_number][2:]
+        sorted_cpu_cards = cpu_cards
+    card_cpu_played = sorted_cpu_cards[Global_Variables.round_number]
     return card_cpu_played
 
 #################################################################################################
