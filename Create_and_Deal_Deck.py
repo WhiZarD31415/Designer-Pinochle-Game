@@ -13,28 +13,26 @@ def create_deck_list_funct():
     The deck consists of 4 copies of each "9, jack, queen, king, 10, ace" for each suit of "clubs, diamonds,
     hearts, spades".
     '''
-    global list_of_cards
-    list_of_cards = []
     label_list = ["9","jack","queen","king","10","ace"]
     suit_list = ["clubs","diamonds","hearts","spades"]
     for label in label_list:
         for suit in suit_list:
             if (label == "9") or (label == "10"):
-                list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+".png")
+                Global_Variables.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+".png")
             if label == "ace":
                 if suit == "spades":
-                    list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+"2.png")
+                    Global_Variables.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+"2.png")
                 else:
-                    list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+".png")
+                    Global_Variables.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+".png")
             if (label == "jack") or (label == "queen") or (label == "king"):
-                list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+"2.png")
+                Global_Variables.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+"2.png")
     count = 1
     new_list_of_cards = []
     while count <= 4:
-        for card in list_of_cards:
+        for card in Global_Variables.list_of_cards:
             new_list_of_cards.append(card)
         count += 1
-    list_of_cards = new_list_of_cards
+    Global_Variables.list_of_cards = new_list_of_cards
 
 def deal_cards_helper(cards_list: list[str]):
     '''
@@ -47,18 +45,17 @@ def deal_cards_helper(cards_list: list[str]):
     Arg:
         cards_list ([str]): Represents the appropriate player/computer hand into which the card is dealt 
     '''
-    global list_of_cards
     global remaining_card_count
     card_number = random.randint(0,remaining_card_count)
-    card = list_of_cards[card_number]
+    card = Global_Variables.list_of_cards[card_number]
     cards_list.append(card)
-    del list_of_cards[card_number]
+    del Global_Variables.list_of_cards[card_number]
     remaining_card_count -= 1
 
 def deal_cards_funct():
     '''
     Main function to control dealing the "list_of_cards" to each computer/player and then sorting the
-    player's cards. Results in "list_of_cards" being emptied, but "list_of_cards" does not carry over to
+    player's cards. Results in "list_of_cards" being emptied, but "list_of_cards" is not used in
     Pinochle.py anyway.
     '''
     while remaining_card_count > 0:

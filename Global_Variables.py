@@ -1,6 +1,7 @@
 from designer import *
 
 #Create and Deal Deck Vars
+list_of_cards = []
 player_cards = []
 cpu1_cards = []
 cpu2_cards = []
