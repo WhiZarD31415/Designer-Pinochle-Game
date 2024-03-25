@@ -1,6 +1,7 @@
 from designer import *
 
 #Create and Deal Deck Vars
+remaining_card_count = 95
 list_of_cards = []
 player_cards = []
 cpu1_cards = []
