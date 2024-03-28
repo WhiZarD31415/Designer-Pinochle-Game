@@ -1,4 +1,24 @@
 from designer import *
+from dataclasses import dataclass
+
+@dataclass
+class PinochleWorld:
+    title: DesignerObject
+    instructions1: DesignerObject
+    player_hand_objs: list[DesignerObject]
+    player_obj: list[DesignerObject]
+    cpu1_obj: list[DesignerObject]
+    cpu2_obj: list[DesignerObject]
+    cpu3_obj: list[DesignerObject]
+    cpu4_obj: list[DesignerObject]
+    cpu5_obj: list[DesignerObject]
+    call_trump_message: DesignerObject
+    call_clubs: DesignerObject
+    call_diamonds: DesignerObject
+    call_spades: DesignerObject
+    call_hearts: DesignerObject
+    heading_left: DesignerObject
+    heading_right: DesignerObject
 
 #Create and Deal Deck Vars
 remaining_card_count = 95
@@ -28,3 +48,8 @@ i = 0
 
 #Control Meld
 trump_suit = ""
+
+#Control Round
+card_clicked = DesignerObject
+run_number_round = 0
+time_bound = 15
