@@ -1,6 +1,6 @@
 from bakery import assert_equal
 import random
-import Global_Variables
+import Global_Variables as GV
 
 def create_deck_list_funct():
     '''
@@ -16,21 +16,21 @@ def create_deck_list_funct():
     for label in label_list:
         for suit in suit_list:
             if (label == "9") or (label == "10"):
-                Global_Variables.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+".png")
+                GV.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+".png")
             if label == "ace":
                 if suit == "spades":
-                    Global_Variables.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+"2.png")
+                    GV.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+"2.png")
                 else:
-                    Global_Variables.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+".png")
+                    GV.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+".png")
             if (label == "jack") or (label == "queen") or (label == "king"):
-                Global_Variables.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+"2.png")
+                GV.list_of_cards.append("Sized-Pinochle-Cards/"+label+"_of_"+suit+"2.png")
     count = 1
     new_list_of_cards = []
     while count <= 4:
-        for card in Global_Variables.list_of_cards:
+        for card in GV.list_of_cards:
             new_list_of_cards.append(card)
         count += 1
-    Global_Variables.list_of_cards = new_list_of_cards
+    GV.list_of_cards = new_list_of_cards
 
 def deal_cards_helper(cards_list: list[str]):
     '''
@@ -43,11 +43,11 @@ def deal_cards_helper(cards_list: list[str]):
     Arg:
         cards_list ([str]): Represents the appropriate player/computer hand into which the card is dealt 
     '''
-    card_number = random.randint(0,Global_Variables.remaining_card_count)
-    card = Global_Variables.list_of_cards[card_number]
+    card_number = random.randint(0,GV.remaining_card_count)
+    card = GV.list_of_cards[card_number]
     cards_list.append(card)
-    del Global_Variables.list_of_cards[card_number]
-    Global_Variables.remaining_card_count -= 1
+    del GV.list_of_cards[card_number]
+    GV.remaining_card_count -= 1
 
 def deal_cards_funct():
     '''
@@ -55,14 +55,14 @@ def deal_cards_funct():
     player's cards. Results in "list_of_cards" being emptied, but "list_of_cards" is not used in
     Pinochle.py anyway.
     '''
-    while Global_Variables.remaining_card_count > 0:
-        deal_cards_helper(Global_Variables.cpu1_cards)
-        deal_cards_helper(Global_Variables.cpu2_cards)
-        deal_cards_helper(Global_Variables.cpu3_cards)
-        deal_cards_helper(Global_Variables.cpu4_cards)
-        deal_cards_helper(Global_Variables.cpu5_cards)
-        deal_cards_helper(Global_Variables.player_cards)
-    sort_cards_funct(Global_Variables.player_cards, "player_cards")
+    while GV.remaining_card_count > 0:
+        deal_cards_helper(GV.cpu1_cards)
+        deal_cards_helper(GV.cpu2_cards)
+        deal_cards_helper(GV.cpu3_cards)
+        deal_cards_helper(GV.cpu4_cards)
+        deal_cards_helper(GV.cpu5_cards)
+        deal_cards_helper(GV.player_cards)
+    sort_cards_funct(GV.player_cards, "player_cards")
 
 def sort_cards_helper(cards_list: list[str]) -> list:
     '''
@@ -139,14 +139,14 @@ def sort_cards_funct(cards_list: list[str], cards_list_str: str):
             card = card[2:]
             new_sorted_cards.append(card)
     if cards_list_str == "player_cards":
-        Global_Variables.player_cards = new_sorted_cards
+        GV.player_cards = new_sorted_cards
     elif cards_list_str == "cpu1_cards":
-        Global_Variables.cpu1_cards = new_sorted_cards
+        GV.cpu1_cards = new_sorted_cards
     elif cards_list_str == "cpu2_cards":
-        Global_Variables.cpu2_cards = new_sorted_cards
+        GV.cpu2_cards = new_sorted_cards
     elif cards_list_str == "cpu3_cards":
-        Global_Variables.cpu3_cards = new_sorted_cards
+        GV.cpu3_cards = new_sorted_cards
     elif cards_list_str == "cpu4_cards":
-        Global_Variables.cpu4_cards = new_sorted_cards
+        GV.cpu4_cards = new_sorted_cards
     elif cards_list_str == "cpu5_cards":
-        Global_Variables.cpu5_cards = new_sorted_cards
+        GV.cpu5_cards = new_sorted_cards

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from designer import *
-import Global_Variables
+import Global_Variables as GV
 
 center_x = get_width() / 2
 center_y = get_height() / 2
@@ -26,7 +26,7 @@ class PinochleWorld:
 
 def calc_meld_funct():
     global meld_list
-    cards_list = [Global_Variables.player_cards, Global_Variables.cpu1_cards, Global_Variables.cpu2_cards, Global_Variables.cpu3_cards, Global_Variables.cpu4_cards, Global_Variables.cpu5_cards]
+    cards_list = [GV.player_cards, GV.cpu1_cards, GV.cpu2_cards, GV.cpu3_cards, GV.cpu4_cards, GV.cpu5_cards]
     meld_list = []
     for card_list in cards_list:
         meld = [0]
@@ -63,7 +63,7 @@ def calc_meld_funct():
             elif suit == suits[3]:
                 name_suit = "Hearts"
                 suit_symbol = "♥"
-            if name_suit == Global_Variables.trump_suit:
+            if name_suit == GV.trump_suit:
                 for card in suit:
                     if "9" in card:
                         count_9s += 1
@@ -133,19 +133,19 @@ def meld_runs_helper(suits: list[list], meld: list):
     for suit in suits:
         is_trump = 0
         if suit == suits[0]:
-            if Global_Variables.trump_suit == "Clubs":
+            if GV.trump_suit == "Clubs":
                 is_trump = 1
                 suit_symbol = "♣"
         elif suit == suits[1]:
-            if Global_Variables.trump_suit == "Diamonds":
+            if GV.trump_suit == "Diamonds":
                 is_trump = 1
                 suit_symbol = "♦"
         elif suit == suits[2]:
-            if Global_Variables.trump_suit == "Spades":
+            if GV.trump_suit == "Spades":
                 is_trump = 1
                 suit_symbol = "♠"
         elif suit == suits[3]:
-            if Global_Variables.trump_suit == "Hearts":
+            if GV.trump_suit == "Hearts":
                 is_trump = 1
                 suit_symbol = "♥"
         if is_trump:
@@ -198,22 +198,22 @@ def meld_marriages_helper(suits: list[list], meld: list):
         add_meld_points = 2
         if suit == suits[0]:
             name_suit = "Clubs"
-            if Global_Variables.trump_suit == name_suit:
+            if GV.trump_suit == name_suit:
                 add_meld_points = 4
             suit_symbol = "♣"
         elif suit == suits[1]:
             name_suit = "Diamonds"
-            if Global_Variables.trump_suit == name_suit:
+            if GV.trump_suit == name_suit:
                 add_meld_points = 4
             suit_symbol = "♦"
         elif suit == suits[2]:
             name_suit = "Spades"
-            if Global_Variables.trump_suit == name_suit:
+            if GV.trump_suit == name_suit:
                 add_meld_points = 4
             suit_symbol = "♠"
         elif suit == suits[3]:
             name_suit = "Hearts"
-            if Global_Variables.trump_suit == name_suit:
+            if GV.trump_suit == name_suit:
                 add_meld_points = 4
             suit_symbol = "♥"
         count_list = []
@@ -230,11 +230,11 @@ def meld_marriages_helper(suits: list[list], meld: list):
                     card_count += 1
             count_list.append(card_count)
         if run and add_meld_points == 4:
-            Global_Variables.i = 0
+            i = 0
             for count in count_list:
-                if count == 1 and Global_Variables.i == 0:
-                    Global_Variables.i = 1
-                elif count == 1 and Global_Variables.i == 1:
+                if count == 1 and i == 0:
+                    i = 1
+                elif count == 1 and i == 1:
                     count_list[1] = 0
         for count in count_list:
                 if count == 0:
@@ -308,9 +308,9 @@ def manage_meld_world(world: PinochleWorld):
     global red_meld
     black_meld = meld_list[0][0] + meld_list[2][0] + meld_list[4][0]
     red_meld = meld_list[1][0] + meld_list[3][0] + meld_list[5][0]
-    Global_Variables.black_score += black_meld
-    Global_Variables.red_score += red_meld
-    world.heading_right.text = "Black Team Score: "+str(Global_Variables.black_score)+" | Red Team Score: "+str(Global_Variables.red_score)
+    GV.black_score += black_meld
+    GV.red_score += red_meld
+    world.heading_right.text = "Black Team Score: "+str(GV.black_score)+" | Red Team Score: "+str(GV.red_score)
     world.instructions1.text = "Press the space bar to continue"
     world.instructions1.y = center_y
     create_meld_text_funct(world)
