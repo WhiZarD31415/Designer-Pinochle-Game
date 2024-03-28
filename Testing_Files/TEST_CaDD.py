@@ -1,5 +1,9 @@
 #Run this program to test Create_and_Deal_Deck.py functionality
-from Create_and_Deal_Deck import *
+import sys
+from os import path
+sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
+
+from Side_Programs.Create_and_Deal_Deck import *
 import Global_Variables
 
 valid_cards = open("Sized-Pinochle-Cards/valid_cards.txt")

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from designer import *
-from Create_and_Deal_Deck import create_deck_list_funct, deal_cards_funct, sort_cards_funct
-from Control_Meld import calc_meld_funct, manage_meld_world
+from Side_Programs.Create_and_Deal_Deck import create_deck_list_funct, deal_cards_funct, sort_cards_funct
+from Side_Programs.Control_Meld import calc_meld_funct, manage_meld_world
 import Global_Variables
 import time
 
