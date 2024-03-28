@@ -25,3 +25,6 @@ cards_played_list = []
 round_number = 0
 lead_identifier = 0
 i = 0
+
+#Control Meld
+trump_suit = ""
