@@ -46,7 +46,7 @@ def call_trump_click(world: PinochleWorld, x:int, y:int):
             GV.truth_trump_called = 2
 
 def select_card_click(world: PinochleWorld, x:int, y:int):
-    if (GV.truth_player_turn_in_round == 1) and (GV.truth_card_selected == 0):
+    if (GV.truth_player_turn_in_round == 1) and not GV.truth_card_selected:
         card_count = 0
         for card in world.player_hand_objs:
             if colliding(card, x, y):
@@ -56,7 +56,7 @@ def select_card_click(world: PinochleWorld, x:int, y:int):
         if (card_count > 0) and (card_count <= 3):
             GV.card_clicked.y -= 20
             GV.truth_card_selected = 1
-    elif (GV.truth_player_turn_in_round == 1) and (GV.truth_card_selected == 1):
+    elif (GV.truth_player_turn_in_round == 1) and GV.truth_card_selected:
         card_count = 0
         for card in world.player_hand_objs:
             if colliding(card, x, y):
@@ -70,7 +70,5 @@ def select_card_click(world: PinochleWorld, x:int, y:int):
         elif (card_count > 0) and (card_count <= 3) and new_card_clicked == GV.card_clicked:
             GV.card_clicked.x = world.player_obj[1].x
             GV.card_clicked.y = world.player_obj[1].y
-            GV.cards_played_list.append(GV.card_clicked)
-            GV.round_number += 1
+            GV.cards_played_list[GV.round_number-1].append(GV.card_clicked)
             GV.truth_card_played = 1
-            GV.truth_run_time = 1
