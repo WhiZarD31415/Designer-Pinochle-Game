@@ -14,7 +14,7 @@ def create_player_hand_obj(y: int) -> list[DesignerObject]:
     return player_obj_list
     
 def create_cpu_hand_obj(color:str,x:int,y:int) -> list[DesignerObject]:
-    return [rectangle(color, 25, 25, x, y), rectangle(color, 25, 25, x, y), text(color, "", 20, x, y, anchor="center"), image("Sized-Pinochle-Cards/ace_of_clubs.png", center_x, -1000)]
+    return [rectangle(color, 25, 25, x, y), rectangle(color, 25, 25, x, y), text(color, "", 20, x, y, anchor="center")]
 
 def box_move_funct(world: PinochleWorld, run_number: int):
     if run_number == 1:

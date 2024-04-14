@@ -63,6 +63,11 @@ def deal_cards_funct():
         deal_cards_helper(GV.cpu5_cards)
         deal_cards_helper(GV.player_cards)
     sort_cards_funct(GV.player_cards, "player_cards")
+    sort_cards_funct(GV.cpu1_cards, "cpu1_cards")
+    sort_cards_funct(GV.cpu2_cards, "cpu2_cards")
+    sort_cards_funct(GV.cpu3_cards, "cpu3_cards")
+    sort_cards_funct(GV.cpu4_cards, "cpu4_cards")
+    sort_cards_funct(GV.cpu5_cards, "cpu5_cards")
 
 def sort_cards_helper(cards_list: list[str]) -> list:
     '''

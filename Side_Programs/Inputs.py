@@ -70,5 +70,16 @@ def select_card_click(world: PinochleWorld, x:int, y:int):
         elif (card_count > 0) and (card_count <= 3) and new_card_clicked == GV.card_clicked:
             GV.card_clicked.x = world.player_obj[1].x
             GV.card_clicked.y = world.player_obj[1].y
-            GV.cards_played_list[GV.round_number-1].append(GV.card_clicked)
+            for card in GV.player_cards:
+                if card == GV.card_clicked.filename:
+                    card_clicked_string = card
+            #removing card from player_card
+            count = 0
+            i = 0
+            for card in GV.player_cards:
+                if card == card_clicked_string and i == 0:
+                    del GV.player_cards[count]
+                    i=1
+                count+=1
+            GV.cards_played_list[GV.round_number-1].append(card_clicked_string)
             GV.truth_card_played = 1

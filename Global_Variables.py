@@ -8,10 +8,15 @@ class PinochleWorld:
     player_hand_objs: list[DesignerObject]
     player_obj: list[DesignerObject]
     cpu1_obj: list[DesignerObject]
+    cpu1_image: Image
     cpu2_obj: list[DesignerObject]
+    cpu2_image: Image
     cpu3_obj: list[DesignerObject]
+    cpu3_image: Image
     cpu4_obj: list[DesignerObject]
+    cpu4_image: Image
     cpu5_obj: list[DesignerObject]
+    cpu5_image: Image
     call_trump_message: DesignerObject
     call_clubs: DesignerObject
     call_diamonds: DesignerObject
@@ -36,7 +41,7 @@ truth_trump_called = 0
 truth_start_tricks = 0
 black_score = 0
 red_score = 0
-time_constant = 0
+time_constant = 15
 
 
 #Control Meld
@@ -52,6 +57,9 @@ lead_identifier = 0
 order_list = []
 i = 0
 cards_played_list = [[]]
-card_clicked = DesignerObject
+card_clicked = Image
 current_turn = "player_turn"
 time_bound = 15
+
+suit_led = ""
+high_card = ""
