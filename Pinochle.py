@@ -127,10 +127,6 @@ def check_turn_funct(world: PinochleWorld):
         cpu_play_card_funct(world, 5, "cpu5_cards", 1)
         cpu_play_card_funct(world, 5, "cpu5_cards", 2)
 
-#####################################################################################################
-
-
-
 ####################################################################################################
 
 def tracking_round_result(world: PinochleWorld):
