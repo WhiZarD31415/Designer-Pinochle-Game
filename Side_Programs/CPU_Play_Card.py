@@ -32,13 +32,22 @@ def cpu_card_decision_helper(sorted_cpu_cards: list[str], cpu_string: str) -> st
     '''
     Picks a card for a cpu to play
     '''
+    cards_played = GV.cards_played_list[-1]
     if GV.suit_led:
         on_suit_cards = []
+        trump_cards = []
         for card in sorted_cpu_cards:
             if GV.suit_led in card:
                 on_suit_cards.append(card)
         if on_suit_cards:
             card_cpu_played = on_suit_cards[0]
             return card_cpu_played
+        else:
+            for card in sorted_cpu_cards:
+                if GV.trump_suit.lower() in card:
+                    trump_cards.append(card)
+            if trump_cards:
+                card_cpu_played = trump_cards[0]
+
     card_cpu_played = sorted_cpu_cards[0]
     return card_cpu_played
