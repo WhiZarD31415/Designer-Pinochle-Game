@@ -4,6 +4,7 @@ from designer import *
 from Side_Programs.Create_and_Deal_Deck import create_deck_list_funct, deal_cards_funct, sort_cards_funct
 from Side_Programs.Inputs import press_key_start, call_trump_click, select_card_click
 from Side_Programs.Create_Objs import create_player_hand_obj, create_cpu_hand_obj, box_move_funct
+from Side_Programs.CPU_Play_Card import cpu_play_card_funct
 import Global_Variables as GV
 from Global_Variables import PinochleWorld
 import time
@@ -40,7 +41,7 @@ def create_PinochleWorld_world() -> PinochleWorld:
 
 
 
-#################################################################################################
+####################################################################################################
 
 def control_round_function(world: PinochleWorld):
     '''
@@ -63,6 +64,11 @@ def control_round_function(world: PinochleWorld):
             GV.current_turn = GV.order_list[0]
             check_turn_funct(world)
         elif GV.time_constant == (GV.time_bound*2):
+            suits = ["clubs", "diamonds", "spades", "hearts"]
+            card_led = GV.cards_played_list[-1][0]
+            for suit in suits:
+                if suit in card_led:
+                    GV.suit_led = suit
             GV.time_constant += 1
             GV.current_turn = GV.order_list[1]
             check_turn_funct(world)
@@ -95,6 +101,7 @@ def control_round_function(world: PinochleWorld):
             GV.cards_played_list.append([])
             GV.time_constant = 0
             GV.round_number += 1
+            GV.suit_led = ""
             
 def check_turn_funct(world: PinochleWorld):
     '''
@@ -120,38 +127,11 @@ def check_turn_funct(world: PinochleWorld):
         cpu_play_card_funct(world, 5, "cpu5_cards", 1)
         cpu_play_card_funct(world, 5, "cpu5_cards", 2)
 
-def cpu_play_card_funct(world: PinochleWorld, cpu_number: int, cpu_string: str, run_number: int):
-    '''
-    Cpu plays a card based on decision helper
-    '''
-    list_cpu_objs = [world.cpu1_obj,world.cpu2_obj,world.cpu3_obj,world.cpu4_obj,world.cpu5_obj]
-    list_cpu_images = [world.cpu1_image,world.cpu2_image,world.cpu3_image,world.cpu4_image,world.cpu5_image]
-    list_of_cpu_cards = [GV.cpu1_cards,GV.cpu2_cards,GV.cpu3_cards,GV.cpu4_cards,GV.cpu5_cards]
-    cpu_obj = list_cpu_objs[cpu_number-1]
-    cpu_image = list_cpu_images[cpu_number-1]
-    cpu_cards = list_of_cpu_cards[cpu_number-1]
-    if run_number == 1:
-        card_cpu_played = cpu_card_decision_helper(cpu_cards, cpu_string)
-        GV.cards_played_list[GV.round_number-1].append(card_cpu_played)
-        cpu_image.filename = card_cpu_played
-        #removing card from cpu_cards
-        count = 0
-        i = 0
-        for card in cpu_cards:
-            if card == card_cpu_played and i == 0:
-                del cpu_cards[count]
-                count+=1
-                i = 1
-    if run_number == 2:
-        cpu_image.x = cpu_obj[1].x
-        cpu_image.y = cpu_obj[1].y
+#####################################################################################################
 
-def cpu_card_decision_helper(sorted_cpu_cards: list[str], cpu_string: str) -> str:
-    '''
-    Picks a card for a cpu to play
-    '''
-    card_cpu_played = sorted_cpu_cards[0]
-    return card_cpu_played
+
+
+####################################################################################################
 
 def tracking_round_result(world: PinochleWorld):
     list_played_card_image = [GV.card_clicked, world.cpu1_image,world.cpu2_image,world.cpu3_image,world.cpu4_image,world.cpu5_image]
@@ -177,12 +157,6 @@ def tracking_round_result(world: PinochleWorld):
                 else:
                     list_objs[count][1].color = "black"
                 count += 1
-            #
-            suits = ["clubs", "diamonds", "spades", "hearts"]
-            card_led = GV.cards_played_list[-1][0]
-            for suit in suits:
-                if suit in card_led:
-                    GV.suit_led = suit
             #
             onsuit_cards = []
             for card in current_cards:
